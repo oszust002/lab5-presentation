@@ -31,7 +31,26 @@ public class MainActivity extends AppCompatActivity {
             intent.setAction(ForegroundService.STOPFOREGROUND_ACTION);
             startService(intent);
         });
+
+
+        Button bindButton = findViewById(R.id.bindButton);
+        bindButton.setOnClickListener(v -> {
+            //TODO #5: bind to service if not already bounded
+        });
+
+        Button randomButton = findViewById(R.id.randomButton);
+        randomButton.setOnClickListener(v -> {
+            //TODO #7: show random number from service if already bounded
+        });
+        Button unbindButton = findViewById(R.id.unbindButton);
+        unbindButton.setOnClickListener(v -> {
+            //TODO #6: unbind from service if already bounded
+        });
     }
+
+
+    // private ServiceConnection connection =
+    //TODO #5: Create own ServiceConnection implementation
 
 
 
