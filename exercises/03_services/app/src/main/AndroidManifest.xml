@@ -17,6 +17,7 @@
             </intent-filter>
         </activity>
         <service android:name=".ForegroundService" />
+        <!--TODO #4: add service to manifest-->
     </application>
 
 </manifest>
