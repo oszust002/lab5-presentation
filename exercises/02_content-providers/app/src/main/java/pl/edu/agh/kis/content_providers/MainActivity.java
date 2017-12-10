@@ -18,21 +18,19 @@ public class MainActivity extends AppCompatActivity {
     void loadContacts() {
         setContentView(R.layout.activity_main);
 
-        /*
-         * TODO #1 create projection with columns:
-         * - ContactsContract.Contacts.DISPLAY_NAME
-         * - ContactsContract.CommonDataKinds.Phone.NUMBER
-         * - ContactsContract.Contacts._ID
-         */
         String contactProjection[] = {
-                //...
+                ContactsContract.Contacts.DISPLAY_NAME,
+                ContactsContract.CommonDataKinds.Phone.NUMBER,
+                ContactsContract.Contacts._ID
         };
 
-        /*
-         * TODO #2 run query returning cursor for given projection using URI:
-         * ContactsContract.CommonDataKinds.Phone.CONTENT_URI
-         */
-        //contactsCursor = ...;
+        contactsCursor = getContentResolver().query(
+                ContactsContract.CommonDataKinds.Phone.CONTENT_URI,
+                contactProjection,
+                null,
+                null,
+                null
+        );
 
         // NO CHANGES NEEDED BEYOND THIS POINT
         if (contactsCursor == null || contactsCursor.getCount() == 0) {
