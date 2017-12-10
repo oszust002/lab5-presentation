@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">content-providers</string>
+    <string name="permissions_required">Read contacts permission is required</string>
 </resources>
