@@ -17,7 +17,7 @@
             </intent-filter>
         </activity>
         <service android:name=".ForegroundService" />
-        <!--TODO #4: add service to manifest-->
+        <service android:name=".BoundService" />
     </application>
 
 </manifest>

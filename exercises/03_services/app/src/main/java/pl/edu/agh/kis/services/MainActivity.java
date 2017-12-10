@@ -2,14 +2,20 @@ package pl.edu.agh.kis.services;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.os.Bundle;
+import android.os.IBinder;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
     public static final String CHANNEL_ID = "main";
+
+    private BoundService boundService = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,22 +41,41 @@ public class MainActivity extends AppCompatActivity {
 
         Button bindButton = findViewById(R.id.bindButton);
         bindButton.setOnClickListener(v -> {
-            //TODO #5: bind to service if not already bounded
+            if(boundService == null) {
+                Intent intent = new Intent(this, BoundService.class);
+                bindService(intent, connection, BIND_AUTO_CREATE);
+            }
         });
 
         Button randomButton = findViewById(R.id.randomButton);
         randomButton.setOnClickListener(v -> {
-            //TODO #7: show random number from service if already bounded
+            if (boundService != null) {
+                int number = boundService.getRandomNumber();
+                Toast.makeText(this, "Random number: " + number, Toast.LENGTH_SHORT).show();
+            }
         });
         Button unbindButton = findViewById(R.id.unbindButton);
         unbindButton.setOnClickListener(v -> {
-            //TODO #6: unbind from service if already bounded
+            if (boundService != null) {
+                unbindService(connection);
+                boundService = null;
+            }
         });
     }
 
 
-    // private ServiceConnection connection =
-    //TODO #5: Create own ServiceConnection implementation
+    private ServiceConnection connection = new ServiceConnection() {
+        @Override
+        public void onServiceConnected(ComponentName name, IBinder service) {
+            BoundService.LocalBinder binder = (BoundService.LocalBinder) service;
+            boundService = binder.getService();
+        }
+
+        @Override
+        public void onServiceDisconnected(ComponentName name) {
+            boundService = null;
+        }
+    };
 
 
 

@@ -2,23 +2,48 @@ package pl.edu.agh.kis.services;
 
 import android.app.Service;
 import android.content.Intent;
+import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.widget.Toast;
+
+import java.util.Random;
 
 /**
  * Created by maxmati on 12/10/17.
  */
 
 public class BoundService extends Service {
-    //TODO #4: add service to manifest
+    private final IBinder binder = new LocalBinder();
+    private final Random mGenerator = new Random();
+
+
+    @Override
+    public void onCreate() {
+        super.onCreate();
+        Toast.makeText(this, "Created bound service", Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Toast.makeText(this, "Destroyed bound service", Toast.LENGTH_SHORT).show();
+    }
 
     @Nullable
     @Override
     public IBinder onBind(Intent intent) {
-        return null; //TODO #2: return own binder implementation (#1)
+        return binder;
     }
 
-    //TODO #1: Implement own class extending Binder class
+    public int getRandomNumber() {
+        return mGenerator.nextInt(100);
+    }
 
-    //TODO #3: Add method for generating random numbers
+
+    public class LocalBinder extends Binder {
+        BoundService getService() {
+            return BoundService.this;
+        }
+    }
 }
