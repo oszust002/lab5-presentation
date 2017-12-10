@@ -265,5 +265,23 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{AsyncTask}
+	\begin{block}{}
+		AsyncTask pozwala na wykonywanie operacji asynchronicznych w~interfejsie użytkownika. Wykonuje blokujące operacje w wątku roboczym, a następnie publiuje rezultaty w wątku UI, nie wymagając od użytkownika zarządzania wątkami. AsyncTask możemy wywołać tylko raz.
+	\end{block}
+	
+	\begin{block}{}
+		Any użyć AsyncTask należy stworzyć podklasę AsyncTask i zaimplementować metodę \textbf{doInBackground}. Aby po wykonaniu operacji dokonać update'u UI, trzeba zaimplementowac metodę \textbf{onPostExecute}, która odbiera rezultat z doInBackground i wykonuje się na wątku UI.
+	\end{block}
+	
+	\begin{block}{Wystartowanie AsyncTask}
+		asynkTask.execute()
+	\end{block}
+\end{frame}
+
+\begin{frame}{AsyncTask - przykład}
+	\centering
+	\includegraphics[height=0.8\textheight]{asynctask}
+\end{frame}
 \end{document}
 
