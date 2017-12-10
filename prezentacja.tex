@@ -53,7 +53,7 @@
 \begin{frame}{Dodanie do manifestu}
 	\includegraphics[width=\textwidth]{manifest}
 	\begin{block}{Uwaga!}
-		Powyższe rozwiązanie nie zadziała w wersji API wyższej niż 25. Nie można wtedy użyć manifestu do zadeklarowania receiver'a dla broadcast'ów nieskierowanych bezpośrednio dla Twojej aplikacji (z wyjątkiem kilku wyszczególnionych).
+		Powyższe rozwiązanie nie zadziała w wersji API wyższej niż 25. Nie można wtedy użyć manifestu do zadeklarowania receiver'a dla większości implicit broadcast'ów (z wyjątkiem kilku wyszczególnionych).
 	\end{block}
 \end{frame}
 
@@ -96,5 +96,59 @@
 		\textbf{registerBroadcaster(receiver, intent-filter, permission, handler)} - Receiver odbierze broadcast'y tylko od wysyłających, którzy posiadają uprawnienie \textbf{permission}
 	\end{block}
 \end{frame}
+
+%Content providers
+
+\begin{frame}{Content providers}
+	\begin{block}{}
+		Content provider pomaga aplikacji w zarządzaniu dostępem do danych przechowywanych przez samą siebie czy inne aplikacje, i udostępnia sposób na dzielenie się danymi z innymi aplikacjami. 
+	\end{block}
+	\begin{block}{}
+		Content provider prezentuje dane zewnętrznym aplikacjom jako jedna lub wiele tabel, które są podobne do tabel z relacyjnych baz danych. Wiersz reprezentuje instancję jakiegoś typu danych, który gromadzi w sobie provider. Kolumna reprezentuje indywidualną część danych dla konkretnej instancji.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Dostęp do danych}
+	\begin{block}{}
+		Do uzyskania dostępu do danych wykorzystywany jest \textbf{ContentResolver}. Każdy kontekst aplikacji przechowuje instancję klasy ContentResolver, do której dostęp obywa się poprzez metodę \textbf{getContentResolver()}. 
+	\end{block}
+	\begin{block}{Metody operujące na danych}
+		Metody klasy ContentResolver udostępniają podstawowe operacje CRUD(create - \textbf{insert()}, read - \textbf{query()}, update - \textbf{update()}, delete - \textbf{delete()}). Metody te jako jeden z argumentów przyjmują adres URI, na~którego podstawie ContentResolver decyduje z którego providera skorzystać.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Content URI}
+	\begin{block}{Schemat URI}
+		\textbf{content://<authority>/<data-type>/<id>}
+		\begin{itemize}
+			\item \textbf{authority} - nazwa symboliczna content provider'a
+			\item \textbf{data-type} - typ danych które oferuje dany provider
+			\item \textbf{id} - numer konkretnego rekordu zapisanego w providerze
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Przykładowe zapytanie o dane}
+	\includegraphics[width=\textwidth]{query}
+	\begin{block}{}
+		Zapytania powinny być wykonywane na innym wątku niż wątek UI, asynchronicznie. Jednym ze sposobów jest użycie klasy \textbf{CursorLoader}.
+	\end{block}
+	\begin{block}{}
+		Aby móc pobierać dane z provider'a, aplikacja musi posiadać uprawnienia do odczytu z provider'a.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Argumenty query()}
+	\centering
+	\includegraphics[width=0.9\textwidth]{query-args}
+\end{frame}
+
+\begin{frame}{Wyświetlanie rezultatów}
+	\begin{block}{}
+		Funkcja query zwraca zawsze obiekt klasy \textbf{Cursor}, który udostępnia losowy dostęp do wierszy i kolumn które zawiera. Dane te można następnie przekonwertować na ListView przy pomocy klasy \textbf{SimpleCursorAdapter}, lub użyć w innych miejscach (Cursor ma kilka metod get służących do pobierania różnych typów danych z obiektu).
+	\end{block}
+\end{frame}
+
+
 \end{document}
 
