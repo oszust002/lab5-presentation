@@ -31,25 +31,70 @@
 \begin{frame}{Broadcast Receivers}
 
 \begin{block}{Do czego to służy?}
-BroadcastReceiver pozwala nam na odbieranie powiadomień (Systemu bądź innej aplikacji) wewnątrz naszej aplikacji. Takim powiadomieniem może być na przykład informacja o nowej wiadomości SMS bądź rozładowanej baterii.
+	BroadcastReceiver pozwala nam na odbieranie powiadomień (Systemu bądź innej aplikacji) wewnątrz naszej aplikacji. Takim powiadomieniem może być na przykład informacja o nowej wiadomości SMS bądź rozładowanej baterii.
 \end{block}
 \end{frame}
+
 
 \begin{frame}{Tworzenie Broadcast Receiver'a}
 	Żeby zbudować nasz własny BroadcastReceiver musimy wykonać dwie czynności:
 	\begin{enumerate}
 		\item Stworzyć podklasę klasy BroadcastReceiver
-		\item Wyspecyfikować receiver w manifeście aplikacji
+		\item Wyspecyfikować receiver w manifeście aplikacji lub bezpośrednio w kodzie
 	\end{enumerate}
 \end{frame}
 
+
 \begin{frame}{Przykład klasy Broadcast Receiver'a}
-\includegraphics[width=\textwidth]{receiver}
+	\includegraphics[width=\textwidth]{receiver}
 \end{frame}
+
 
 \begin{frame}{Dodanie do manifestu}
-\includegraphics[width=\textwidth]{manifest}
+	\includegraphics[width=\textwidth]{manifest}
+	\begin{block}{Uwaga!}
+		Powyższe rozwiązanie nie zadziała w wersji API wyższej niż 25. Nie można wtedy użyć manifestu do zadeklarowania receiver'a dla broadcast'ów nieskierowanych bezpośrednio dla Twojej aplikacji (z wyjątkiem kilku wyszczególnionych).
+	\end{block}
 \end{frame}
 
+\begin{frame}{Rejestracja w kodzie}
+	\centering
+	\includegraphics[height=0.7\textheight]{code-registration}
+\end{frame}
+
+\begin{frame}{Rejestracja - kontekst}
+	\begin{block}{Manifest}
+		W przypadku dodania deklaracji receiver'a do manifestu, jest on rejestrowany w momencie zainstalowania aplikacji. Receiver staje się wtedy oddzielnym punktem wejścia aplikacji. Oznacza to, że system może wystartować aplikację i przekazać wysyłany broadcast do receiver'a.
+	\end{block}
+	\begin{block}{Rejestracja w kodzie}
+		Receiver'y zarejestrowane w kodzie odbierają broadcast'y tak długo jak kontekst w którym zostały zarejestrowane jest aktywny.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Wysyłanie broadcast'ów}
+	Android oferuje trzy sposoby wysyłania broadcastów:
+	\begin{itemize}
+		\item<1-> \textbf{sendOrderedBroadcast} - wysyła broadcast do jednego receiver'a na raz. Gdy receiver zakończy 	swoje wykonanie, może propagowac rezultat do innego receiver'a, lub też całkowicie przerwać broadcast.	Kolejność broadcastów może być określana za pomocą atrybutu \textbf{android-priority}
+		\item<2-> \textbf{sendBroadcast} - tzw. normalny broadcast, wysyła broadcast do wszystkich receiver'ów w nieokreślonej kolejności. Jest szybszy, ale nie można kontrolować przeplywu broadcast'u między receiver'ami, czy go zatrzymać.
+		\item<3-> \textbf{LocalBroadcastManager.sendBroadcast} - wysyła broadcast do receiver'ów, które są w tej samej aplikacji, co strona wysyłająca. 
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{Przykład wysyłania broadcast'ów}
+	\centering
+	\includegraphics[width=\textwidth]{send-broadcast}
+	\begin{block}{Uwaga!}
+		Pomimo tego, że Intent jest używany zarówno do wysyłania broadcast'ów, jak i startowania activity (przy pomocy \textbf{startActivity}), akcje te nie są ze sobą powiązane. Broadcast receiver'y nie odbiorą akcji używanej do wystartowania activity.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Ograniczenia broadcast'ów - uprawnienia}
+	\begin{block}{Wysyłanie}
+		\textbf{sendBroadcast(intent, permission)} - wysłany w ten sposób broadcast może zostać odebrany tylko przez receiver posiadający uprawnienie \textbf{permission} 
+	\end{block}
+	\begin{block}{Odbieranie}
+		\textbf{registerBroadcaster(receiver, intent-filter, permission, handler)} - Receiver odbierze broadcast'y tylko od wysyłających, którzy posiadają uprawnienie \textbf{permission}
+	\end{block}
+\end{frame}
 \end{document}
 
