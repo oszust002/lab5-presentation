@@ -149,6 +149,55 @@
 	\end{block}
 \end{frame}
 
+\begin{frame}{Wstawianie danych}
+	\centering
+	\includegraphics[width=0.8\textwidth]{insert}
+	\begin{block}{}
+		Dane dla nowego wiersza tworzymy przy pomocy klasy \textbf{ContentValues}, która reprezentuje pojedynczy wpis. Nie dodaje się kolumny ID, która jest dodawana automatycznie. Metoda insert zwraca content URI do wstawianego obiektu.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Aktualizacja danych}
+	\begin{block}{}
+		Do aktualizacji danych także używana jest klasa ContentValues, zawierająca tylko wartości, które chcemy zaktualizować. W metodzie update podawane są argumenty, które odpowiadają za wyszukanie wierszy, które mają zostać zaktualizowane. Metoda zwraca ilość zaktualizowanych wierszy.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Aktualizacja danych}
+	\centering
+	\includegraphics[width=0.8\textwidth]{update}
+\end{frame}
+
+\begin{frame}{Usuwanie danych}
+	\includegraphics[width=0.8\textwidth]{delete}
+	\begin{block}{}
+		Do metody delete podajemy argumenty, które wyszukują wiersze, które chcemy usunąć. Metoda zwraca ilość usuniętych wierszy.
+	\end{block}
+\end{frame}
+
+\begin{frame}{Tworzenie Content Provider'a}
+	\begin{block}{}
+		Tworzenie Content Provider'a polega na zaimplementowaniu metod klasy ContentProvider. Klasa ta definiuje 6 metod abstrakcyjnych które wymagają implementacji:
+		\begin{itemize}
+			\item query() - pobiera dane z provider'a, zwraca obiekt klasy Cursor
+			\item insert() - wstawia dane do provider'a, zwraca Uri do wstawionego obiektu
+			\item update() - aktualizuje wybrane wiersze, zwraca ilość zaktualizowanych wierszy
+			\item delete() - usuwa wybrane wiersze, zwraca ilość usuniętych wierszy
+			\item getType() - zwraca MIME type odpowiadający podanemu URI
+			\item onCreate() - inicjalizuje provider
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}{Tworzenie Content Provider'a - kroki}
+	\begin{enumerate}
+		\item Stworzenie podklasy klasy ContentProvider
+		\item Zdefiniowanie URI którym będzie posługiwał się Content Provider
+		\item Stworzenie bazdy danych
+		\item Implementacja różnych query wykonujących różne operacje na bazie danych
+		\item Zarejestrowanie provider'a w pliku activity poprzez użycie tagu \textbf{<provider>}
+	\end{enumerate}
+\end{frame}
 
 \end{document}
 
