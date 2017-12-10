@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 //TODO: create and execute async task.
                 //You can use `ImageFetcher.fetchAvatar` to fetch gravatar
+                new DownloadAvatarTask(avatar).execute(emailView.getText().toString());
             }
         });
 
