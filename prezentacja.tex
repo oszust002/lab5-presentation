@@ -33,11 +33,43 @@
 	\end{block}
 	
 	\begin{block}{}
-		Any użyć AsyncTask należy stworzyć podklasę AsyncTask i zaimplementować metodę \textbf{doInBackground}. Aby po wykonaniu operacji dokonać update'u UI, trzeba zaimplementowac metodę \textbf{onPostExecute}, która odbiera rezultat z doInBackground i wykonuje się na wątku UI.
+		Aby użyć AsyncTask należy stworzyć podklasę AsyncTask i zaimplementować metodę \textbf{doInBackground}. Aby po wykonaniu operacji dokonać update'u UI, trzeba zaimplementowac metodę \textbf{onPostExecute}, która odbiera rezultat z doInBackground i wykonuje się na wątku UI.
 	\end{block}
 	
 	\begin{block}{Wystartowanie AsyncTask}
-		asynkTask.execute()
+		asyncTask.execute()
+	\end{block}
+\end{frame}
+
+\begin{frame}{AsyncTask - kroki wykonania}
+	\begin{block}{}
+		Gdy AsyncTask jest wywoływany, przechodzi przez 4 kroki:
+		\begin{enumerate}
+			\item \textbf{onPreExecute()}
+			\item \textbf{doInBackground()}
+			\item \textbf{onProgressUpdate()}
+			\item \textbf{onPostExecute()}
+		\end{enumerate}
+	\end{block}
+\end{frame}
+
+\begin{frame}{AsyncTask - kroki wykonania}
+	\begin{itemize}
+		\item \textbf{onPreExecute()} - wywoływany na wątku UI przed wystartowaniem task'a. Zwykle wykorzystywany do przygotowania task'a (np. poprzez pokazanie pasku ładowania)
+		\item \textbf{doInBackground()} - wywoływany na wątku roboczym, natychmiast po onPreExecute. Tutaj znajdują się wszystkie operacje, które mogą trwać długo. Ta metoda może użyć metody \textbf{publishProgress}, aby przekazać informację o postępie do metody onProgressUpdate
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{AsyncTask - kroki wykonania}
+	\begin{itemize}
+		\item \textbf{onProgressUpdate()} -wywołany na wątku UI po wywołaniu publishProgress. Czas wykonania jest nieokreślony. Metoda ta jest wykorzystywana do wyświetlania jakiejś formy postępu w interfejsie użytkownika.
+		\item \textbf{onPostExecute()} - wywołany na wątku UI po zakończeniu operacji w tle. Jest tutaj przekazany rezultat z metody doInBackground
+	\end{itemize}
+\end{frame}
+
+\begin{frame}{AsyncTask - anulowanie}
+	\begin{block}{}
+		Task może być w każdej chwili anulowany poprzez wywołanie metody \textbf{cancel}. Po wywołaniu tej metody zamiast wykonania onPostExecute po zakończeniu operacji w tle, zostanie wywołana metoda \textbf{onCancelled}. Dodatkowo wszystkie wywołania metody \textbf{isCancelled} będą zwracały true, co pozwoli na szybsze anulowanie task'a (np. poprzez sprawdzenie w doInBackground czy task nie został anulowany).
 	\end{block}
 \end{frame}
 
