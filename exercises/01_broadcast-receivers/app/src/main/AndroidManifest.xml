@@ -16,7 +16,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- TODO #7 add <receiver> with <intent-filter> and <action> with name pl.edu.agh.kis.broadcast_receivers.ACTION_ROLL_DICE -->
+        <receiver android:name=".RollDiceBroadcastReceiver" android:exported="false">
+            <intent-filter>
+                <action android:name="pl.edu.agh.kis.broadcast_receivers.ACTION_ROLL_DICE" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

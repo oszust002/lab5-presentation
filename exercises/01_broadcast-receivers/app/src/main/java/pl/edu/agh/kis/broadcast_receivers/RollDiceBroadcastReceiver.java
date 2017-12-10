@@ -7,7 +7,6 @@ import android.widget.Toast;
 
 import java.util.Random;
 
-// NO CHANGES NEEDED IN THIS CLASS
 public class RollDiceBroadcastReceiver extends BroadcastReceiver {
     private Random random = new Random();
 
