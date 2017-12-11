@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        loadContacts();
+        if (hasContactPermission()) loadContacts();
     }
 
     protected boolean hasContactPermission() {
@@ -95,9 +95,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if (hasContactPermission()) {
-            loadContacts();
-        } else {
+        if (!hasContactPermission()) {
             setContentView(R.layout.no_permissions);
             requestContactPermission();
         }
