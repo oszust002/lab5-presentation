@@ -35,6 +35,11 @@ public class MainActivity extends AppCompatActivity {
         //contactsCursor = ...;
 
         // NO CHANGES NEEDED BEYOND THIS POINT
+        if (contactsCursor == null || contactsCursor.getCount() == 0) {
+            setContentView(R.layout.contact_list_empty);
+            return;
+        }
+
         int to[] = {
                 R.id.name,
                 R.id.phone
@@ -55,6 +60,12 @@ public class MainActivity extends AppCompatActivity {
     protected void onDestroy() {
         super.onDestroy();
         if (contactsCursor != null) contactsCursor.close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        loadContacts();
     }
 
     protected boolean hasContactPermission() {
